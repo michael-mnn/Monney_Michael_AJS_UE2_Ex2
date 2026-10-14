@@ -9,9 +9,29 @@
 </head>
 
 <body>
-    <main>
-        <script src="./validateur.js"></script>
 
+    <main>
+
+        <div class="container">
+            <form>
+                <fieldset>
+                    <legend>Verificateur de mot de passe</legend>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="motDePasse">
+                    </div>
+
+                    <div class="has-error" id="error"></div>
+                    <br>
+                    <button class="btn btn-primary" type="submit" id="button">Envoyer</button>
+                </fieldset>
+
+            </form>
+        </div>
+
+
+        <script src="./validateur.js"></script>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
