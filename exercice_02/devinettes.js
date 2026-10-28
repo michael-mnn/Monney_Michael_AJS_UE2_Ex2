@@ -14,40 +14,48 @@ function genererNombreAleatoire(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-let recommencer = true;
+const text = document.getElementById("reponse");
+const inputNombre = document.getElementById("nombre");
+const button = document.getElementById("button");
+const formulaire = document.querySelector("form");
 
-while (recommencer) {
+let nombreSecret = genererNombreAleatoire(1, 100);
+let essais = 0;
+const maxEssais = 10;
 
-    const nombre = genererNombreAleatoire(1, 100);
-    let trouve = false;
+formulaire.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    for (let essest = 1; essest <= 10; essest++) {
+    const choix = Number(inputNombre.value);
 
-        let choix = Number(prompt("essest " + essest + "/10 : devinez le nombre entre 1 et 100 : "));
-
-        while (isNaN(choix) || choix < 1 || choix > 100) {
-            console.log("entre un nombre entre 1 et 100.");
-            choix = Number(prompt("entre un nombre entre 1 et 100 :"));
-        }
-
-        if (choix === nombre) {
-            console.log("GG  trouvé ");
-            trouve = true;
-            break;
-        }
-
-        if (choix < nombre) {
-            console.log("nombre plus grand");
-        } else {
-            console.log("nombre plus petit");
-        }
-
-        console.log("il t reste " + (10 - essest) + " essests");
+    if (inputNombre.value.trim() === "" || !Number.isInteger(choix) || choix < 1 || choix > 100) {
+        text.textContent = "entre un nombre entier entre 1 et 100";
+        return;
     }
 
-    if (!trouve) {
-        console.log("perdu le nombre : " + nombre);
+    essais++;
+
+    if (choix === nombreSecret) {
+        text.textContent = "gg  tas trouve le nombre en " + essais + " essai";
+        button.disabled = true;
+        return;
     }
 
-    recommencer = confirm("recommencer ?");
-}
+    if (choix < nombreSecret) {
+        text.textContent = "le nombre secret est plus grand ";
+    } else {
+        text.textContent = "le nombre secret est plus petit ";
+    }
+
+    const restants = maxEssais - essais;
+
+    if (restants > 0) {
+        text.textContent += "il reste " + restants + " essai";
+    } else {
+        text.textContent = "loose le nombre secret etait " + nombreSecret;
+        button.disabled = true;
+    }
+
+    inputNombre.value = "";
+    inputNombre.focus();
+});
